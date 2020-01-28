@@ -5,11 +5,11 @@
     <input type="checkbox" v-model="seleccion" @click="check"> 
     <label  v-bind:class="{tachado:seleccion}" >{{text}}</label> <!-- v-bind:class="{changeprioridad:prioridad}" -->
     <label>Prioridad:</label>
-        <button  @click="pulsadocambio(0)">Low</button>
+        <button  @click="pulsadocambio(0)" class="btn btn-danger">Low</button>
         <button  @click="pulsadocambio(1)">Normal</button>
         <button  @click="pulsadocambio(2)">High</button>
     
-    <label>Agregada hace {{transcurrido}}</label>
+    <label>Agregada hace {{ moment(this.fecha)}}</label><!--  -->
     <button @click="pulsadoborrar()">Borrar</button>
     
     </div>
@@ -17,10 +17,10 @@
 </template>
 
 <script lang="js">
-
+import moment from 'moment'
   export default  {
     name: 'nota',
-    props: ['text', 'seleccion', 'prioridad', 'clave'],
+    props: ['text', 'seleccion', 'prioridad', 'clave', 'fecha'],
     
     data() {
     return {
@@ -39,17 +39,11 @@
       pulsadoborrar:function () {
         this.$emit("pulsadoborrar")
       },
-      /*intervalo: function () {   
-        setInterval(() => {
-            if(this.transcurrido=="-"){
-                this.transcurrido=this.temporizador+" minuto";
-            }else{
-                this.temporizador++;
-                this.transcurrido=this.temporizador+" minutos";
-            } 
-          }, 60000);
-      },*/
+      moment: function (date) {
+        return moment().locale("es").startOf(date).fromNow(); 
+      }
     },
+    
     computed: {
 
     }

@@ -1,9 +1,23 @@
 <template>
-  <div id="app">
+  <div id="app" class="container">
     <header class="header">
         <!-- titulo -->
+        <label class="h1">Proyecto Vue.js - Álvaro Torrente Pérez</label>
         <!-- menu -->
+        <nav class="navbar navbar-expand-lg" >
+        <div class="collapse navbar-collapse justify-content-center">
+          <li class="nav-item active" style="margin-right:20px;">
+            Notes
+            <!-- <router-link to="/" style="color:green;">Notes</router-link> |  -->
+          </li> |
+          <li class="nav-item active">
+            Weather
+             <!-- <router-link to="/weather" style="color:green;">Weather</router-link> -->
+          </li>
+       </div>
+      </nav>
     </header>
+
     <listaNotas></listaNotas>
 
     <footer class="footer">
@@ -14,15 +28,11 @@
 </template>
 
 <script>
-
 import listaNotas from './components/listaNotas.vue'
-//import nota from './components/nota.vue'
 
- 
 export default {
   name: 'app',
   components: {
-    //nota,
     listaNotas
   },
   mounted () {
@@ -36,13 +46,16 @@ export default {
   methods:{
     
   }
-  
-
-  
 }
 </script>
 
 <style>
+
+li{
+
+display: inline;
+
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

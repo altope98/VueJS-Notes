@@ -2,8 +2,11 @@
 
 <div class="container-fluid">
   
-    <input type="text" v-model="texto" v-on:keypress.enter="crearNota">
+    <input type="text" v-model="texto" v-on:keypress.enter="crearNota" >
     <button v-on:click="crearNota">Add</button>
+
+     <!-- <input type="text" v-model="busqueda" > -->
+    
 
   <section class="lista-notas">
     <p>Tienes un total de {{total}} tareas, pendientes {{pendientes}}</p>
@@ -14,15 +17,11 @@
       v-bind:text="elemento.text" 
       v-bind:seleccion="elemento.seleccion" 
       v-bind:prioridad="elemento.prioridad" 
+      v-bind:fecha="elemento.fecha"
       @pulsadocheck="comprobacion(elemento)" 
       @pulsadocambio="cambiarprioridad" 
       @pulsadoborrar="del_nota(index)"/>
-      
-      
-      
   </section>
-
-  
 </div>
 </template>
 
@@ -30,6 +29,8 @@
 
 import nota from './nota.vue'
 import axios from 'axios'
+
+
   export default  {
     name: 'lista-notas',
     components: {
@@ -50,6 +51,7 @@ import axios from 'axios'
     data(){
       return{
         texto: '',
+        busqueda: '',
         arr:[],
         completadas: 0,
         pendientes: 0,
@@ -63,17 +65,8 @@ import axios from 'axios'
       this.ordenar();
     },
 
-    ordenar: function(){
-      this.arr=this.arr.sort(function (a, b) {
-        if (b.prioridad > a.prioridad) {
-          return 1;
-        }
-        if (b.prioridad < a.prioridad) {
-          return -1;
-        }
-        return 0;
-      });
-    },
+    
+
     comprobacion: function (elemento) {
       if(elemento.seleccion==false){
         elemento.seleccion=true;
@@ -88,7 +81,7 @@ import axios from 'axios'
       localStorage.pendientes=JSON.stringify(this.pendientes);
     },
     crearNota: function(){
-      this.arr.push({ text: this.texto, seleccion: false, prioridad: 0});
+      this.arr.push({ text: this.texto, seleccion: false, prioridad: 0, fecha: new Date});
       this.texto='';
       this.total++;
       this.pendientes++;
@@ -117,9 +110,23 @@ import axios from 'axios'
       localStorage.total=JSON.stringify(this.total);
 
     },
+
+    ordenar: function(){
+       this.arr=this.arr.sort(function (a, b) {
+        if (b.prioridad > a.prioridad) {
+          return 1;
+        }
+        if (b.prioridad < a.prioridad) {
+          return -1;
+        }
+        return 0;
+      }); 
+
+    },
+
     },
     computed: {
-
+      
     }
 }
 
