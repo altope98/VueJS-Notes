@@ -2,25 +2,26 @@
 
 <div class="container-fluid">
   
-    <input type="text" v-model="texto" v-on:keypress.enter="crearNota" >
+    <input type="text" v-model="texto" placeholder="Busca o introduce nueva nota" v-on:keypress.enter="crearNota" >
     <button v-on:click="crearNota">Add</button>
 
-     <!-- <input type="text" v-model="busqueda" > -->
     
 
   <section class="lista-notas">
-    <p>Tienes un total de {{total}} tareas, pendientes {{pendientes}}</p>
+    <p>Tienes un total de {{totalTareas}} tareas, completadas {{totalCompletadas}}</p>
       <button v-on:click="del_completadas">Eliminar completadas</button>
-      <nota v-for="(elemento,index) in arr" 
-      v-bind:key="index" 
-      v-bind:clave="index"
-      v-bind:text="elemento.text" 
-      v-bind:seleccion="elemento.seleccion" 
-      v-bind:prioridad="elemento.prioridad" 
-      v-bind:fecha="elemento.fecha"
-      @pulsadocheck="comprobacion(elemento)" 
-      @pulsadocambio="cambiarprioridad" 
-      @pulsadoborrar="del_nota(index)"/>
+      <transition-group name="animacion">
+        <nota v-for="(elemento,index) in filtrar" 
+        v-bind:key="index" 
+        v-bind:clave="index"
+        v-bind:text="elemento.text" 
+        v-bind:seleccion="elemento.seleccion" 
+        v-bind:prioridad="elemento.prioridad" 
+        v-bind:fecha="elemento.fecha"
+        @pulsadocheck="comprobacion(elemento)" 
+        @pulsadocambio="cambiarprioridad" 
+        @pulsadoborrar="del_nota(index)"/>
+      </transition-group>
   </section>
 </div>
 </template>
@@ -29,8 +30,6 @@
 
 import nota from './nota.vue'
 
-
-
   export default  {
     name: 'lista-notas',
     components: {
@@ -38,26 +37,15 @@ import nota from './nota.vue'
     },
     props: [],
     mounted () {
-      
-      
-       
-      
-
       if (localStorage.getItem('notas')) {
         this.arr = JSON.parse(localStorage.getItem('notas'));
         this.ordenar();
-        this.total = JSON.parse(localStorage.getItem('total'));
-        this.pendientes = JSON.parse(localStorage.getItem('pendientes'));
       }
     },
     data(){
       return{
         texto: '',
-        busqueda: '',
         arr:[],
-        completadas: 0,
-        pendientes: 0,
-        total: 0,
         fecha: ''
       }
     },
@@ -71,46 +59,25 @@ import nota from './nota.vue'
     comprobacion: function (elemento) {
       if(elemento.seleccion==false){
         elemento.seleccion=true;
-        this.completadas++;
-        this.pendientes=this.total-this.completadas;
       }else{
         elemento.seleccion=false;
-        this.completadas--;
-         this.pendientes=this.total-this.completadas;
       }
       localStorage.notas=JSON.stringify(this.arr);
-      localStorage.pendientes=JSON.stringify(this.pendientes);
     },
     crearNota: function(){
-      let d=new Date();
-      this.fecha=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();
       this.arr.push({ text: this.texto, seleccion: false, prioridad: 0, fecha: new Date().toLocaleString("es-ES")});
       this.texto='';
-      this.total++;
-      this.pendientes++;
       this.ordenar();
       localStorage.notas=JSON.stringify(this.arr);
-      localStorage.total=JSON.stringify(this.total);
-      localStorage.pendientes=JSON.stringify(this.pendientes);
     },
     del_completadas: function () {
-      for (let i = 0; i < this.arr.length; i++) {
-        if (this.arr[i].seleccion == true) {
-          this.arr.splice(i,1);
-          this.total--;
-          this.completadas--;
-        }
-      }
+      this.arr=this.arr.filter(e=>{return !e.seleccion;});
       localStorage.notas=JSON.stringify(this.arr);
-      localStorage.total=JSON.stringify(this.total);
     },
     del_nota: function(index){
       this.arr.splice(index,1);
-      this.total--;
-      this.pendientes--
       localStorage.notas=JSON.stringify(this.arr);
-      localStorage.pendientes=JSON.stringify(this.pendientes);
-      localStorage.total=JSON.stringify(this.total);
+
 
     },
 
@@ -129,7 +96,26 @@ import nota from './nota.vue'
 
     },
     computed: {
-      
+      filtrar: function () {
+        var vm = this;
+        return this.arr.filter(function (elemento) {
+          return elemento.text.toLowerCase().indexOf(vm.texto.toLowerCase()) !== -1;
+        })
+      },
+
+      totalTareas: function(){
+        return this.arr.length;
+      },
+      totalCompletadas: function(){
+        let completadas=0;
+        for (let i = 0; i < this.arr.length; i++) {
+        if (this.arr[i].seleccion == true) {
+          completadas++;
+          
+          }
+        }
+        return completadas;
+      }
     }
 }
 
@@ -137,6 +123,16 @@ import nota from './nota.vue'
 </script>
 
 <style scoped >
+
+
+.animacion-enter-active {
+  transition: all 1.5s ease;
+}
+.animacion-enter{
+  transform: translateX(-1000px);
+  opacity: 0;
+}
+
 .lista-notas {
 }
 </style>
