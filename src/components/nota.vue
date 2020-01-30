@@ -9,7 +9,7 @@
         <button  @click="pulsadocambio(1)">Normal</button>
         <button  @click="pulsadocambio(2)">High</button>
     
-    <label>Agregada hace {{ moment(this.fecha)}}</label><!--  -->
+    <label>Agregada {{ this.fecha}}</label><!--  -->
     <button @click="pulsadoborrar()">Borrar</button>
     
     </div>
@@ -17,15 +17,13 @@
 </template>
 
 <script lang="js">
-import moment from 'moment'
+
   export default  {
     name: 'nota',
     props: ['text', 'seleccion', 'prioridad', 'clave', 'fecha'],
     
     data() {
     return {
-      transcurrido: "-",
-      temporizador:0,
     };
   },
     methods: {
@@ -39,9 +37,7 @@ import moment from 'moment'
       pulsadoborrar:function () {
         this.$emit("pulsadoborrar")
       },
-      moment: function (date) {
-        return moment().locale("es").startOf(date).fromNow(); 
-      }
+     
     },
     
     computed: {

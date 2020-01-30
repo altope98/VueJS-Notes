@@ -1,39 +1,34 @@
 <template>
   <div id="app" class="container">
     <header class="header">
-        <!-- titulo -->
         <label class="h1">Proyecto Vue.js - Álvaro Torrente Pérez</label>
-        <!-- menu -->
         <nav class="navbar navbar-expand-lg" >
         <div class="collapse navbar-collapse justify-content-center">
           <li class="nav-item active" style="margin-right:20px;">
-            Notes
-            <!-- <router-link to="/" style="color:green;">Notes</router-link> |  -->
+            <router-link to="/inicio" style="color:green;">Notas</router-link> | 
           </li> |
           <li class="nav-item active">
-            Weather
-             <!-- <router-link to="/weather" style="color:green;">Weather</router-link> -->
+             <router-link to="/tiempo" style="color:green;">Tiempo</router-link>
           </li>
        </div>
       </nav>
     </header>
 
-    <listaNotas></listaNotas>
+        <keep-alive>
+          <router-view></router-view>
+        </keep-alive>
 
-    <footer class="footer">
-      <h6>Desarrollado por "Álvaro Torrente Pérez".</h6>
-      <h6>Codigo en <a class="fa fa-github" style="font-size: 18px; color: green; text-decoration: none;" href="https://github.com/altope98/VueJS-Notes.git"> GitHub.</a></h6>
-    </footer>
+      <pie></pie>
+      
   </div>
 </template>
 
 <script>
-import listaNotas from './components/listaNotas.vue'
-
+import pie from './components/pie'
 export default {
   name: 'app',
   components: {
-    listaNotas
+    pie
   },
   mounted () {
     
@@ -44,17 +39,14 @@ export default {
       }
     },
   methods:{
-    
+
   }
 }
 </script>
 
 <style>
-
 li{
-
-display: inline;
-
+  display: inline;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

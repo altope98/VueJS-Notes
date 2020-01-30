@@ -28,7 +28,7 @@
 <script lang="js">
 
 import nota from './nota.vue'
-import axios from 'axios'
+
 
 
   export default  {
@@ -38,8 +38,10 @@ import axios from 'axios'
     },
     props: [],
     mounted () {
-      axios.get("https://jsonplaceholder.typicode.com/todos/")
-    .then(response => console.log(response))
+      
+      
+       
+      
 
       if (localStorage.getItem('notas')) {
         this.arr = JSON.parse(localStorage.getItem('notas'));
@@ -56,17 +58,16 @@ import axios from 'axios'
         completadas: 0,
         pendientes: 0,
         total: 0,
+        fecha: ''
       }
     },
     methods: {
-      cambiarprioridad: function(value){
+      
+    cambiarprioridad: function(value){
       this.arr[value.clave].prioridad=value.prioridad;
       localStorage.notas=JSON.stringify(this.arr);
       this.ordenar();
     },
-
-    
-
     comprobacion: function (elemento) {
       if(elemento.seleccion==false){
         elemento.seleccion=true;
@@ -81,7 +82,9 @@ import axios from 'axios'
       localStorage.pendientes=JSON.stringify(this.pendientes);
     },
     crearNota: function(){
-      this.arr.push({ text: this.texto, seleccion: false, prioridad: 0, fecha: new Date});
+      let d=new Date();
+      this.fecha=d.getDate()+"/"+(d.getMonth()+1)+"/"+d.getFullYear();
+      this.arr.push({ text: this.texto, seleccion: false, prioridad: 0, fecha: new Date().toLocaleString("es-ES")});
       this.texto='';
       this.total++;
       this.pendientes++;
@@ -93,7 +96,7 @@ import axios from 'axios'
     del_completadas: function () {
       for (let i = 0; i < this.arr.length; i++) {
         if (this.arr[i].seleccion == true) {
-          this.arr.splice(i);
+          this.arr.splice(i,1);
           this.total--;
           this.completadas--;
         }
