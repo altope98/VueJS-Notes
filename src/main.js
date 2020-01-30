@@ -2,14 +2,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 import listaNotas from './components/listaNotas'
-import tiempo from './components/tiempo'
+import listaNoticias from './components/listaNoticias'
 
 
+import 'bootstrap/dist/css/bootstrap.css'
 Vue.use(VueRouter)
 
 const routes=[
   {path:'/inicio', component: listaNotas},
-  {path:'/tiempo', component: tiempo},
+  {path:'/noticias', component: listaNoticias},
   {path:'*', component: listaNotas }
 ]
 

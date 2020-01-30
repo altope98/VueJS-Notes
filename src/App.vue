@@ -8,7 +8,7 @@
             <router-link to="/inicio" style="color:green;">Notas</router-link> | 
           </li> |
           <li class="nav-item active">
-             <router-link to="/tiempo" style="color:green;">Tiempo</router-link>
+             <router-link to="/noticias" style="color:green;">Noticias</router-link>
           </li>
        </div>
       </nav>
