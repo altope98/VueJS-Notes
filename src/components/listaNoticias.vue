@@ -1,6 +1,6 @@
 <template lang="html">
 
-<div v-infinite-scroll="getNewsScroll" infinite-scroll-disabled="cargando" infinite-scroll-distance="500" >
+<div >
   <select v-model="categoria" @change="getNews" >
     <option selected >general</option>
     <option>business</option>
@@ -24,7 +24,7 @@
       ></noticia>
     </transition-group>
   </div>
-
+  <observer @intersect="getNewsScroll"></observer>
   </div>
 
 </template>
@@ -33,10 +33,12 @@
 
 import axios from 'axios'
 import noticia from './noticia.vue'
+import observer from './observer.vue'
   export default  {
     name: 'lista-noticias',
     components: {
-      noticia
+      noticia,
+      observer
     },
     props: [],
     data () {
@@ -44,7 +46,6 @@ import noticia from './noticia.vue'
         datos:[],
         categoria:'general',
         page:0,
-        cargando: false,
         total:0
       }
     },
@@ -54,7 +55,7 @@ import noticia from './noticia.vue'
             .then(
               response =>{
                 this.datos=response.data.articles;
-                console.log(response.data);
+                console.log(this.datos);
                 this.page=1;
                 this.total=(parseInt(response.data.totalResults)-10);
                 },
@@ -64,22 +65,23 @@ import noticia from './noticia.vue'
       },
 
       getNewsScroll: function(){
-        this.cargando=true;
-        window.scrollBy(0,-300);
           this.page++;
           if((this.total)-10>=1 ){
-          axios.get("https://newsapi.org/v2/top-headlines?country=gb&apiKey=cb307264ad4d4cdbbeeb28abd216bf26&category="+this.categoria+"&page="+this.page+"&pageSize=10")
+            window.scrollBy(0,-1000);
+            axios.get("https://newsapi.org/v2/top-headlines?country=gb&apiKey=cb307264ad4d4cdbbeeb28abd216bf26&category="+this.categoria+"&page="+this.page+"&pageSize=10")
             .then(
               response =>{
-                this.datos=response.data.articles;
+                for (const articulo of response.data.articles) {
+                  this.datos.push(articulo);
+                }
+                console.log(this.datos)
                 this.total=this.total-10;
                 },
               error =>{
                 console.log(error)
               });
               
-          } 
-          this.cargando=false;      
+          }    
       },
     },
     computed: {
