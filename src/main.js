@@ -4,8 +4,12 @@ import VueRouter from 'vue-router'
 import listaNotas from './components/listaNotas'
 import listaNoticias from './components/listaNoticias'
 
+import infiniteScroll from 'vue-infinite-scroll'
+Vue.use(infiniteScroll)
 
 import 'bootstrap/dist/css/bootstrap.css'
+
+
 Vue.use(VueRouter)
 
 const routes=[

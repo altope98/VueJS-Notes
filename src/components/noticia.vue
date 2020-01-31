@@ -22,25 +22,7 @@
       }
     },
     methods: {
-      
-
-                /*let listaNoticias = $("#scrolls");
-                $("#scrolls").css({ 'display': 'flex', 'flex-flow': 'row wrap' ,'margin':'auto 0'});
-                //, 'align-items': 'center'
-                $('#scrolls').fadeIn(1000).html("");
-                $.each(response.Search, function (articles, index) {
-                listaNoticias.append(
-                    '<h1>'+articles.author+'</h1>'*/
-
-                    /* '<div class="card" style="width: 18rem;" id="detalle">' +
-                    '<img id="' + articles.author + '" class="card-img-top "  src="' + item.Poster + '" onclick="mostrarDetalle()">' +
-                    '<div class="card-body" >' +
-                    '<h3 class="card-title">' + item.Title + ' - ' + item.Year + '</h3> ' +
-                    '<p class="card-text"></p></div></div>' */
-                //);
-            //});
-            //page = 1;
-              
+                    
     },
     computed: {
 

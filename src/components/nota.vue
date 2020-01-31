@@ -53,22 +53,5 @@
   text-decoration: line-through;
     background-color: green;
 }
-/*.nota {
-  animation-duration: 2s;
-  animation-name: slideInLeft;
-}
-
-@keyframes slideInLeft {
-  from {
-    transform: translate3d(-100%, 0, 0);
-    visibility: visible;
-  }
-
-  to {
-    transform: translate3d(0, 0, 0);
-  }
-}*/
-
-
 </style>
 
