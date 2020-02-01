@@ -1,13 +1,11 @@
 <template lang="html">
-
   <div class="observer"></div>
-
 </template>
 
 <script lang="js">
 
   export default  {
-    name: 'observer',
+    name: 'scrollObserver',
     props: [],
     mounted () {
       this.observer=new IntersectionObserver(([entry])=>{

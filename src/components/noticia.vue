@@ -1,9 +1,10 @@
 <template lang="html">
 
      <div class="card">
-       <img class="card-img-top " :src=this.imagen  ><!--  -->
+       <img class="card-img-top " :src=this.imagen >
         <div class="card-body" >
-          <h3 class="card-title"> {{this.titulo}}  -  {{this.fecha}}</h3> 
+          <h3 class="card-title"> {{this.titulo}}</h3> 
+          <p>{{this.fecha}}</p>
           <p class="card-text">{{this.titulo}}</p>
         </div>
       </div>
@@ -15,14 +16,14 @@
 
   export default  {
     name: 'noticia',
-    props: ['titulo','imagen','descripcion','autor','url','fecha','contenido'],
+    props: ['titulo','imagen','descripcion','autor','url','fecha','contenido', 'clave'],
     data () {
       return {
         
       }
     },
     methods: {
-                    
+
     },
     computed: {
 
@@ -39,14 +40,17 @@
     border-radius: 15px;
     margin: 1rem auto;
     padding: 1rem;
-    animation-name: animacion;
     animation-duration: 0.5s;
+    transform:scale(0.98);
+    background-color: #303030;
   }
-  @keyframes animacion {
-    from {transform: scale(0.5); opacity: 0.5;}
-    to {transform: scale(1); opacity: 1;}
-  }
+
   .card:hover{
-    transform: scale(0.98);
+    transition: all 1s ease;
+    
+    transform: scale(1);
   }
+
+
+
 </style>

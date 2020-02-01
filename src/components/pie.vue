@@ -1,8 +1,9 @@
 <template lang="html">
-
-  <footer class="pie">
+  <footer>
+    <div class="pie">
       <h6>Desarrollado por "Álvaro Torrente Pérez".</h6>
-      <h6>Codigo en <a class="fa fa-github" style="font-size: 18px; color: green; text-decoration: none;" href="https://github.com/altope98/VueJS-Notes.git"> GitHub.</a></h6>
+      <h6>Codigo en <a class="fa fa-github" style="font-size: 18px; color: #00bc8c; text-decoration: none;" href="https://github.com/altope98/VueJS-Notes.git"> GitHub.</a></h6>
+    </div>
   </footer>
 
 </template>
@@ -32,7 +33,7 @@
 </script>
 
 <style scoped >
-  .pie {
-
+  footer {
+    margin-top: 2rem;
   }
 </style>

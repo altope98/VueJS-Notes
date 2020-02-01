@@ -1,7 +1,7 @@
 <template lang="html">
 
 <div >
-  <select v-model="categoria" @change="getNews" >
+  <select v-model="categoria" @change="getNews" class="form-control" style="border-radius:10px;">
     <option selected >general</option>
     <option>business</option>
     <option>entertainment</option>
@@ -12,7 +12,7 @@
   </select>
 
   <div class="lista-noticias container-fluid"  >
-    <transition-group name="animacion">
+    <transition-group name="animacion2">
     <noticia  v-for="(elemento, index) in datos" v-bind:key="index" 
       v-bind:titulo="elemento.title" 
       v-bind:imagen="elemento.urlToImage"
@@ -21,10 +21,11 @@
       v-bind:url="elemento.url"
       v-bind:fecha="elemento.publishedAt"
       v-bind:contenido="elemento.content"
+      v-bind:clave="index"
       ></noticia>
     </transition-group>
   </div>
-  <observer @intersect="getNewsScroll"></observer>
+  <scrollObserver @intersect="getNewsScroll"></scrollObserver>
   </div>
 
 </template>
@@ -33,12 +34,12 @@
 
 import axios from 'axios'
 import noticia from './noticia.vue'
-import observer from './observer.vue'
+import scrollObserver from './scrollObserver.vue'
   export default  {
     name: 'lista-noticias',
     components: {
       noticia,
-      observer
+      scrollObserver
     },
     props: [],
     data () {
@@ -51,7 +52,7 @@ import observer from './observer.vue'
     },
     methods: {
       getNews: function(){
-            axios.get("https://newsapi.org/v2/top-headlines?country=gb&apiKey=cb307264ad4d4cdbbeeb28abd216bf26&category="+this.categoria+"&page=1&pageSize=10")
+            axios.get("https://newsapi.org/v2/top-headlines?country=fr&apiKey=cb307264ad4d4cdbbeeb28abd216bf26&category="+this.categoria+"&page=1&pageSize=10")
             .then(
               response =>{
                 this.datos=response.data.articles;
@@ -68,7 +69,7 @@ import observer from './observer.vue'
           this.page++;
           if((this.total)-10>=1 ){
             window.scrollBy(0,-1000);
-            axios.get("https://newsapi.org/v2/top-headlines?country=gb&apiKey=cb307264ad4d4cdbbeeb28abd216bf26&category="+this.categoria+"&page="+this.page+"&pageSize=10")
+            axios.get("https://newsapi.org/v2/top-headlines?country=fr&apiKey=cb307264ad4d4cdbbeeb28abd216bf26&category="+this.categoria+"&page="+this.page+"&pageSize=10")
             .then(
               response =>{
                 for (const articulo of response.data.articles) {
@@ -83,6 +84,10 @@ import observer from './observer.vue'
               
           }    
       },
+
+      detalle: function(){
+        
+      }
     },
     computed: {
         
@@ -97,17 +102,26 @@ import observer from './observer.vue'
 </script>
 
 <style scoped>
+
   .lista-noticias {
     display: flex;
     flex-flow: column nowrap;
     margin:auto 0;
   }
 
-  .animacion-enter-active {
+
+
+.animacion2-enter-active {
   transition: all 1.5s ease;
 }
-.animacion-enter{
-  transform: translateX(-1000px);
+.animacion2-enter{
+  opacity: 0;
+}
+
+.animacion2-enter-active .animacion2-leave-active {
+  transition: opacity .5s;
+}
+.animacion2-enter .animacion2-leave-to{
   opacity: 0;
 }
 </style>

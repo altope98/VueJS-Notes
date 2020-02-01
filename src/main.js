@@ -10,6 +10,8 @@ Vue.use(infiniteScroll)
 import 'bootstrap/dist/css/bootstrap.css'
 
 
+
+
 Vue.use(VueRouter)
 
 const routes=[

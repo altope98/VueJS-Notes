@@ -1,18 +1,19 @@
 <template lang="html">
 
-<div class="container-fluid">
+<div class="container-fluid app-lista-notas">
   
-    <input type="text" v-model="texto" placeholder="Busca o introduce nueva nota" v-on:keypress.enter="crearNota" >
-    <button v-on:click="crearNota">Add</button>
-
+    <div class="inputs">
+    <input type="text" v-model="texto" placeholder="Introduce nueva nota" v-on:keypress.enter="crearNota" class="input-new form-control" style="margin-right:2rem;" >
+    <input type="text" v-model="busqueda" placeholder="Buscar" class="input-busqueda form-control" style="width:30%;">
+    </div>
     
-
+  <hr>
   <section class="lista-notas">
-    <p>Tienes un total de {{totalTareas}} tareas, completadas {{totalCompletadas}}</p>
-      <button v-on:click="del_completadas">Eliminar completadas</button>
+    <p><i class="fa fa-bar-chart" aria-hidden="true"></i>Tienes un total de {{totalTareas}} tareas, completadas {{totalCompletadas}}  |  <a  class="clickable" v-on:click="del_completadas" ><i class="fa fa-times" aria-hidden="true"></i>Eliminar completadas</a></p>
+  <hr>    
       <transition-group name="animacion">
         <nota v-for="(elemento,index) in filtrar" 
-        v-bind:key="index" 
+        v-bind:key="elemento.text" 
         v-bind:clave="index"
         v-bind:text="elemento.text" 
         v-bind:seleccion="elemento.seleccion" 
@@ -46,7 +47,8 @@ import nota from './nota.vue'
       return{
         texto: '',
         arr:[],
-        fecha: ''
+        fecha: '',
+        busqueda:''
       }
     },
     methods: {
@@ -77,8 +79,6 @@ import nota from './nota.vue'
     del_nota: function(index){
       this.arr.splice(index,1);
       localStorage.notas=JSON.stringify(this.arr);
-
-
     },
 
     ordenar: function(){
@@ -99,7 +99,7 @@ import nota from './nota.vue'
       filtrar: function () {
         var vm = this;
         return this.arr.filter(function (elemento) {
-          return elemento.text.toLowerCase().indexOf(vm.texto.toLowerCase()) !== -1;
+          return elemento.text.toLowerCase().indexOf(vm.busqueda.toLowerCase()) !== -1;
         })
       },
 
@@ -133,6 +133,32 @@ import nota from './nota.vue'
   opacity: 0;
 }
 
+.animacion-leave-active {
+  transition: opacity .5s;
+}
+ .animacion-leave-to{
+  opacity: 0;
+}
+
 .lista-notas {
+}
+
+.app-lista-notas hr{
+  background-color: #fff;
+}
+
+.inputs{
+  display: flex;
+  flex-flow: row nowrap;
+  margin: 1rem 0;
+}
+.inputs input{
+  border-radius: 6px;
+}
+
+.clickable{
+  cursor: pointer;
+  text-decoration:none; 
+  color:#a14421;
 }
 </style>
